@@ -10,8 +10,8 @@ class App extends Component {
   constructor(props) {  
     super(props);
     this.pubnub = new PubNubReact({
-      publishKey: "ENTER_YOUR_PUBLISH_KEY_HERE", 
-      subscribeKey: "ENTER_YOUR_SUBSCRIBE_KEY_HERE"    
+      publishKey: "", 
+      subscribeKey: ""    
     });
     
     this.state = {
@@ -135,9 +135,15 @@ class App extends Component {
             withPresence: true
           });
           
-          this.setState({
-            piece: 'O',
-          });  
+          if(response.totalOccupancy < 1){
+            this.setState({
+              piece: 'O',
+            });  
+          }else{
+            this.setState({
+              piece: 'X',
+            })
+          }
           
           this.pubnub.publish({
             message: {
